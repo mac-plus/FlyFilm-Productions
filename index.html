@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlyFilm Productions | Cinematic Storytelling</title>
+  <meta name="description" content="FlyFilm Productions — award-winning film production company crafting cinematic stories that move audiences. Get in touch today.">
+  <meta name="theme-color" content="#0a0a0a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #0a0a0a;
+      color: #f0ece6;
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img, video { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    ::selection { background: rgba(212, 175, 55, .35); color: #fff; }
+
+    /* ── Utility ── */
+    .container { width: 90%; max-width: 1280px; margin: 0 auto; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+    /* ── Reveal animation ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+
+    /* ── Custom cursor glow (desktop only) ── */
+    .cursor-glow {
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,175,55,.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: opacity .3s;
+      will-change: transform;
+    }
+
+    /* ── Navigation ── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 1.25rem 0;
+      transition: background .4s, padding .4s, backdrop-filter .4s;
+    }
+    .nav.scrolled {
+      background: rgba(10,10,10,.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: .75rem 0;
+    }
+    .nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav__logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: #f0ece6;
+    }
+    .nav__logo span { color: #d4af37; }
+    .nav__links { display: flex; gap: 2rem; list-style: none; }
+    .nav__links a {
+      font-size: .85rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      position: relative;
+      padding: .25rem 0;
+      transition: color .3s;
+    }
+    .nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: #d4af37;
+      transition: width .35s cubic-bezier(.22,1,.36,1);
+    }
+    .nav__links a:hover { color: #d4af37; }
+    .nav__links a:hover::after { width: 100%; }
+
+    .nav__cta {
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .65rem 1.5rem;
+      border: 1.5px solid #d4af37;
+      color: #d4af37;
+      border-radius: 2px;
+      transition: background .3s, color .3s;
+    }
+    .nav__cta:hover { background: #d4af37; color: #0a0a0a; }
+
+    /* Hamburger */
+    .nav__hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      width: 28px;
+      padding: 4px 0;
+    }
+    .nav__hamburger span {
+      display: block;
+      height: 2px;
+      background: #f0ece6;
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    .nav__hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav__hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav__hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,10,.97);
+      backdrop-filter: blur(30px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s;
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      letter-spacing: .04em;
+      transition: color .3s;
+    }
+    .mobile-menu a:hover { color: #d4af37; }
+
+    @media (max-width: 768px) {
+      .nav__links, .nav__cta { display: none; }
+      .nav__hamburger { display: flex; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(10,10,10,.3) 0%, rgba(10,10,10,.7) 60%, #0a0a0a 100%),
+        url('https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+      transform: scale(1.05);
+      animation: heroZoom 20s ease-in-out infinite alternate;
+    }
+    @keyframes heroZoom {
+      from { transform: scale(1.05); }
+      to { transform: scale(1.12); }
+    }
+    .hero__content {
+      position: relative;
+      text-align: center;
+      max-width: 800px;
+      padding: 0 1.5rem;
+    }
+    .hero__tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #d4af37;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp .8s .3s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero__tag::before, .hero__tag::after {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: #d4af37;
+    }
+    .hero__title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -.02em;
+      margin-bottom: 1.25rem;
+      opacity: 0;
+      animation: fadeUp .8s .5s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero__title em {
+      font-style: italic;
+      color: #d4af37;
+    }
+    .hero__sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-weight: 300;
+      color: rgba(240,236,230,.7);
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      opacity: 0;
+      animation: fadeUp .8s .7s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero__actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp .8s .9s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .85rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .9rem 2rem;
+      border-radius: 2px;
+      transition: all .35s cubic-bezier(.22,1,.36,1);
+    }
+    .btn--primary {
+      background: #d4af37;
+      color: #0a0a0a;
+    }
+    .btn--primary:hover {
+      background: #e8c84a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(212,175,55,.25);
+    }
+    .btn--outline {
+      border: 1.5px solid rgba(240,236,230,.25);
+      color: #f0ece6;
+    }
+    .btn--outline:hover {
+      border-color: #d4af37;
+      color: #d4af37;
+      transform: translateY(-2px);
+    }
+    .hero__scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      font-size: .65rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(240,236,230,.4);
+      animation: bounce 2s infinite;
+    }
+    .hero__scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(212,175,55,.6), transparent);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── Section styling ── */
+    section { padding: clamp(4rem, 10vw, 8rem) 0; }
+    .section__tag {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: #d4af37;
+      margin-bottom: .75rem;
+    }
+    .section__title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section__desc {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: rgba(240,236,230,.6);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* ── Showreel ── */
+    .reel {
+      position: relative;
+      background: #0d0d0d;
+    }
+    .reel__player {
+      position: relative;
+      aspect-ratio: 16/9;
+      max-width: 1100px;
+      margin: 2.5rem auto 0;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      background: #111;
+    }
+    .reel__poster {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .6s cubic-bezier(.22,1,.36,1);
+    }
+    .reel__player:hover .reel__poster { transform: scale(1.03); }
+    .reel__play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .reel__play-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(212,175,55,.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .3s, box-shadow .3s;
+      box-shadow: 0 0 0 0 rgba(212,175,55,.3);
+    }
+    .reel__play-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 0 20px rgba(212,175,55,.1);
+    }
+    .reel__play-btn svg { margin-left: 4px; }
+
+    /* ── Work / Portfolio Grid ── */
+    .work { background: #0a0a0a; }
+    .work__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .work__card {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      cursor: pointer;
+    }
+    .work__card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .6s cubic-bezier(.22,1,.36,1);
+    }
+    .work__card:hover img { transform: scale(1.08); }
+    .work__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,.9) 0%, transparent 60%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+      transition: opacity .3s;
+    }
+    .work__overlay-tag {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #d4af37;
+      margin-bottom: .35rem;
+    }
+    .work__overlay-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    /* ── Services ── */
+    .services { background: #0d0d0d; }
+    .services__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .service-card {
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(240,236,230,.06);
+      border-radius: 4px;
+      transition: border-color .4s, transform .4s, background .4s;
+      background: rgba(255,255,255,.01);
+    }
+    .service-card:hover {
+      border-color: rgba(212,175,55,.3);
+      transform: translateY(-6px);
+      background: rgba(212,175,55,.03);
+    }
+    .service-card__icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 1.5rem;
+      color: #d4af37;
+    }
+    .service-card__title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: .75rem;
+    }
+    .service-card__text {
+      font-size: .92rem;
+      color: rgba(240,236,230,.55);
+      line-height: 1.7;
+    }
+
+    /* ── Stats bar ── */
+    .stats {
+      padding: 4rem 0;
+      background: linear-gradient(135deg, #111 0%, #0a0a0a 100%);
+      border-top: 1px solid rgba(240,236,230,.04);
+      border-bottom: 1px solid rgba(240,236,230,.04);
+    }
+    .stats__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+    .stat__number {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 700;
+      color: #d4af37;
+      line-height: 1;
+    }
+    .stat__label {
+      font-size: .8rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(240,236,230,.45);
+      margin-top: .5rem;
+    }
+
+    /* ── About ── */
+    .about { background: #0a0a0a; }
+    .about__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+    .about__image {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .about__image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      aspect-ratio: 4/5;
+    }
+    .about__image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(212,175,55,.15);
+      border-radius: 4px;
+    }
+    .about__text p {
+      font-size: 1.05rem;
+      color: rgba(240,236,230,.65);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    .about__text .highlight {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      font-style: italic;
+      color: rgba(240,236,230,.85);
+      border-left: 2px solid #d4af37;
+      padding-left: 1.25rem;
+      margin: 2rem 0;
+    }
+    @media (max-width: 768px) {
+      .about__grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    /* ── Testimonials ── */
+    .testimonials { background: #0d0d0d; }
+    .testimonials__track {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .testimonial {
+      padding: 2.5rem;
+      border: 1px solid rgba(240,236,230,.05);
+      border-radius: 4px;
+      background: rgba(255,255,255,.01);
+    }
+    .testimonial__stars {
+      color: #d4af37;
+      font-size: .85rem;
+      margin-bottom: 1rem;
+    }
+    .testimonial__quote {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: rgba(240,236,230,.7);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    .testimonial__author {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+    .testimonial__avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #d4af37 0%, #8b7220 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: .9rem;
+      font-weight: 700;
+      color: #0a0a0a;
+    }
+    .testimonial__name {
+      font-weight: 600;
+      font-size: .9rem;
+    }
+    .testimonial__role {
+      font-size: .75rem;
+      color: rgba(240,236,230,.4);
+    }
+
+    /* ── Contact ── */
+    .contact { background: #0a0a0a; }
+    .contact__grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+      margin-top: 3rem;
+    }
+    .contact__info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .contact__info-icon {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(212,175,55,.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d4af37;
+    }
+    .contact__info-label {
+      font-size: .7rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(240,236,230,.4);
+      margin-bottom: .25rem;
+    }
+    .contact__info-value {
+      font-size: 1rem;
+      font-weight: 500;
+      color: rgba(240,236,230,.85);
+    }
+    .contact__socials {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .contact__social {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(240,236,230,.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(240,236,230,.5);
+      transition: border-color .3s, color .3s, transform .3s;
+    }
+    .contact__social:hover {
+      border-color: #d4af37;
+      color: #d4af37;
+      transform: translateY(-3px);
+    }
+
+    /* Form */
+    .contact__form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .form-group { position: relative; }
+    .form-group label {
+      display: block;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(240,236,230,.45);
+      margin-bottom: .5rem;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: .85rem 1rem;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(240,236,230,.1);
+      border-radius: 3px;
+      color: #f0ece6;
+      font-family: inherit;
+      font-size: .95rem;
+      transition: border-color .3s, background .3s;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: #d4af37;
+      background: rgba(212,175,55,.03);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group select option { background: #1a1a1a; }
+
+    .form__submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      width: 100%;
+      font-size: .85rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 1rem;
+      background: #d4af37;
+      color: #0a0a0a;
+      border: none;
+      border-radius: 3px;
+      transition: background .3s, transform .3s, box-shadow .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .form__submit:hover {
+      background: #e8c84a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(212,175,55,.25);
+    }
+    .form__submit.sent {
+      background: #2ecc71;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .contact__grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 3rem 0 2rem;
+      border-top: 1px solid rgba(240,236,230,.05);
+      background: #080808;
+    }
+    .footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer__copy {
+      font-size: .8rem;
+      color: rgba(240,236,230,.3);
+    }
+    .footer__links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .footer__links a {
+      font-size: .8rem;
+      color: rgba(240,236,230,.4);
+      transition: color .3s;
+    }
+    .footer__links a:hover { color: #d4af37; }
+    .footer__back-top {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(240,236,230,.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(240,236,230,.4);
+      transition: border-color .3s, color .3s, transform .3s;
+    }
+    .footer__back-top:hover {
+      border-color: #d4af37;
+      color: #d4af37;
+      transform: translateY(-3px);
+    }
+
+    /* ── Preloader ── */
+    .preloader {
+      position: fixed;
+      inset: 0;
+      background: #0a0a0a;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .6s, visibility .6s;
+    }
+    .preloader.done { opacity: 0; visibility: hidden; }
+    .preloader__text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      overflow: hidden;
+    }
+    .preloader__text span {
+      display: inline-block;
+      transform: translateY(100%);
+      animation: preloaderUp .5s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .preloader__text span:nth-child(2) { animation-delay: .08s; }
+    .preloader__text span:nth-child(3) { animation-delay: .16s; color: #d4af37; }
+    .preloader__text span:nth-child(4) { animation-delay: .24s; color: #d4af37; }
+    @keyframes preloaderUp {
+      to { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__text">
+      <span>Fly</span><span>Film&nbsp;</span><span>Pro</span><span>ductions</span>
+    </div>
+  </div>
+
+  <!-- Cursor glow -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="container">
+      <a href="#" class="nav__logo">Fly<span>Film</span></a>
+      <ul class="nav__links">
+        <li><a href="#reel">Reel</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="#contact" class="nav__cta">Let's Talk</a>
+      <button class="nav__hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#reel">Showreel</a>
+    <a href="#work">Work</a>
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero" id="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__content">
+      <div class="hero__tag">Award-Winning Productions</div>
+      <h1 class="hero__title">Stories That <em>Move</em> You</h1>
+      <p class="hero__sub">We craft cinematic experiences that captivate audiences and elevate brands. From concept to final cut.</p>
+      <div class="hero__actions">
+        <a href="#contact" class="btn btn--primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+          Start Your Project
+        </a>
+        <a href="#reel" class="btn btn--outline">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Watch Reel
+        </a>
+      </div>
+    </div>
+    <div class="hero__scroll">
+      <span>Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </header>
+
+  <!-- Showreel -->
+  <section class="reel" id="reel">
+    <div class="container">
+      <div class="reveal">
+        <p class="section__tag">Showreel</p>
+        <h2 class="section__title">See Our Vision<br>Come to Life</h2>
+      </div>
+      <div class="reel__player reveal reveal-delay-2" id="reelPlayer">
+        <img class="reel__poster" src="https://images.unsplash.com/photo-1524712245354-2c4e5e7121c0?auto=format&fit=crop&w=1200&q=80" alt="Showreel poster" loading="lazy">
+        <div class="reel__play">
+          <div class="reel__play-btn">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#0a0a0a" stroke="none"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section class="work" id="work">
+    <div class="container">
+      <div class="reveal">
+        <p class="section__tag">Selected Work</p>
+        <h2 class="section__title">Projects We're<br>Proud Of</h2>
+        <p class="section__desc">Every frame tells a story. Here are some of our favorite chapters.</p>
+      </div>
+      <div class="work__grid">
+        <div class="work__card reveal reveal-delay-1">
+          <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=600&q=80" alt="The Last Light — Feature Film" loading="lazy">
+          <div class="work__overlay">
+            <span class="work__overlay-tag">Feature Film</span>
+            <h3 class="work__overlay-title">The Last Light</h3>
+          </div>
+        </div>
+        <div class="work__card reveal reveal-delay-2">
+          <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80" alt="Neon Dreams — Music Video" loading="lazy">
+          <div class="work__overlay">
+            <span class="work__overlay-tag">Music Video</span>
+            <h3 class="work__overlay-title">Neon Dreams</h3>
+          </div>
+        </div>
+        <div class="work__card reveal reveal-delay-3">
+          <img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=600&q=80" alt="Beyond the Horizon — Documentary" loading="lazy">
+          <div class="work__overlay">
+            <span class="work__overlay-tag">Documentary</span>
+            <h3 class="work__overlay-title">Beyond the Horizon</h3>
+          </div>
+        </div>
+        <div class="work__card reveal reveal-delay-4">
+          <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80" alt="Velocity — Brand Film" loading="lazy">
+          <div class="work__overlay">
+            <span class="work__overlay-tag">Brand Film</span>
+            <h3 class="work__overlay-title">Velocity</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="reveal">
+        <p class="section__tag">What We Do</p>
+        <h2 class="section__title">Full-Spectrum<br>Production</h2>
+        <p class="section__desc">End-to-end creative services, from first spark to final delivery.</p>
+      </div>
+      <div class="services__grid">
+        <div class="service-card reveal reveal-delay-1">
+          <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <h3 class="service-card__title">Film & TV Production</h3>
+          <p class="service-card__text">Feature films, series, and shorts — produced with craft and ambition from development through post.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+          <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          <h3 class="service-card__title">Commercial & Brand</h3>
+          <p class="service-card__text">Cinematic brand stories and commercials that cut through the noise and connect with audiences.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-3">
+          <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          <h3 class="service-card__title">Music Videos</h3>
+          <p class="service-card__text">Visual storytelling for artists — stylish, bold, and built to perform across every platform.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-4">
+          <svg class="service-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <h3 class="service-card__title">Post-Production</h3>
+          <p class="service-card__text">Color grading, VFX, sound design, and editorial — we polish every frame to perfection.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats__grid">
+        <div class="reveal">
+          <div class="stat__number" data-count="120">0</div>
+          <div class="stat__label">Projects Delivered</div>
+        </div>
+        <div class="reveal reveal-delay-1">
+          <div class="stat__number" data-count="35">0</div>
+          <div class="stat__label">Awards Won</div>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <div class="stat__number" data-count="12">0</div>
+          <div class="stat__label">Years Experience</div>
+        </div>
+        <div class="reveal reveal-delay-3">
+          <div class="stat__number" data-count="50">0</div>
+          <div class="stat__label">Team Members</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="reveal">
+        <p class="section__tag">Who We Are</p>
+        <h2 class="section__title">Passionate Filmmakers,<br>Relentless Storytellers</h2>
+      </div>
+      <div class="about__grid">
+        <div class="about__image reveal reveal-delay-1">
+          <img src="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&w=700&q=80" alt="FlyFilm team on set" loading="lazy">
+        </div>
+        <div class="about__text reveal reveal-delay-2">
+          <div class="highlight">"Great films don't happen by accident — they're the result of vision, obsession, and an uncompromising team."</div>
+          <p>FlyFilm Productions was founded with a singular mission: to tell stories that matter. We bring together world-class directors, cinematographers, editors, and producers under one roof.</p>
+          <p>Whether it's a feature film destined for festivals or a brand campaign for millions, we approach every project with the same relentless dedication to craft.</p>
+          <a href="#contact" class="btn btn--primary" style="margin-top:.5rem;">Work With Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="reveal">
+        <p class="section__tag">Client Love</p>
+        <h2 class="section__title">Words From Those<br>We've Worked With</h2>
+      </div>
+      <div class="testimonials__track">
+        <div class="testimonial reveal reveal-delay-1">
+          <div class="testimonial__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial__quote">"FlyFilm took our brand from invisible to unforgettable. The quality of their work is simply unmatched. Fast, professional, and genuinely creative."</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">JR</div>
+            <div>
+              <div class="testimonial__name">James Rivera</div>
+              <div class="testimonial__role">CMO, TechForge</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial reveal reveal-delay-2">
+          <div class="testimonial__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial__quote">"Working with this team felt like collaborating with old friends who happen to be masters of their craft. Our documentary exceeded every expectation."</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">SK</div>
+            <div>
+              <div class="testimonial__name">Sarah Kim</div>
+              <div class="testimonial__role">Director, Greenlight Media</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial reveal reveal-delay-3">
+          <div class="testimonial__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial__quote">"From the first call to the final export, FlyFilm delivered absolute excellence. They understood our vision and elevated it beyond what we imagined."</p>
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">MC</div>
+            <div>
+              <div class="testimonial__name">Marcus Chen</div>
+              <div class="testimonial__role">Founder, Atlas Records</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="reveal">
+        <p class="section__tag">Get In Touch</p>
+        <h2 class="section__title">Let's Create<br>Something Incredible</h2>
+        <p class="section__desc">Ready to bring your vision to life? Reach out and let's start the conversation.</p>
+      </div>
+      <div class="contact__grid">
+        <div class="reveal reveal-delay-1">
+          <div class="contact__info-item">
+            <div class="contact__info-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact__info-label">Email</div>
+              <div class="contact__info-value">hello@flyfilmproductions.com</div>
+            </div>
+          </div>
+          <div class="contact__info-item">
+            <div class="contact__info-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <div class="contact__info-label">Phone</div>
+              <div class="contact__info-value">+1 (555) 234-5678</div>
+            </div>
+          </div>
+          <div class="contact__info-item">
+            <div class="contact__info-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="contact__info-label">Studio</div>
+              <div class="contact__info-value">123 Cinema Blvd, Los Angeles, CA 90028</div>
+            </div>
+          </div>
+          <div class="contact__socials">
+            <a href="#" class="contact__social" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="contact__social" aria-label="Vimeo">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 7.42c-.1 2.07-1.54 4.91-4.33 8.53C14.8 19.63 12.4 21 10.47 21c-1.2 0-2.2-1.1-3.02-3.3L5.7 11.05C5.13 8.87 4.52 7.77 3.85 7.77c-.15 0-.68.32-1.6.95L1 7.16A113.3 113.3 0 0 0 4.6 3.96C5.93 2.82 6.93 2.2 7.6 2.14c1.67-.16 2.7.98 3.1 3.43.42 2.63.72 4.27.88 4.92.49 2.22 1.03 3.33 1.62 3.33.46 0 1.15-.72 2.06-2.17.92-1.44 1.4-2.55 1.48-3.3.13-1.25-.36-1.88-1.48-1.88-.53 0-1.07.12-1.64.36 1.09-3.56 3.16-5.3 6.22-5.2 2.27.06 3.34 1.54 3.2 4.43z"/></svg>
+            </a>
+            <a href="#" class="contact__social" aria-label="YouTube">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.13c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.46z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+            </a>
+            <a href="#" class="contact__social" aria-label="LinkedIn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <form class="contact__form reveal reveal-delay-2" id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="john@example.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+            </div>
+            <div class="form-group">
+              <label for="budget">Budget Range</label>
+              <select id="budget" name="budget">
+                <option value="" disabled selected>Select budget</option>
+                <option value="5k-15k">$5K — $15K</option>
+                <option value="15k-50k">$15K — $50K</option>
+                <option value="50k-100k">$50K — $100K</option>
+                <option value="100k+">$100K+</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="project">Project Type</label>
+            <select id="project" name="project">
+              <option value="" disabled selected>What do you need?</option>
+              <option value="feature">Feature Film</option>
+              <option value="commercial">Commercial / Brand Film</option>
+              <option value="music-video">Music Video</option>
+              <option value="documentary">Documentary</option>
+              <option value="post">Post-Production Only</option>
+              <option value="other">Something Else</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Tell Us About Your Vision</label>
+            <textarea id="message" name="message" placeholder="Describe your project, timeline, and any creative references..." required></textarea>
+          </div>
+          <button type="submit" class="form__submit" id="submitBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+            <span>Send Message</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <p class="footer__copy">&copy; 2026 FlyFilm Productions. All rights reserved.</p>
+        <ul class="footer__links">
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+        <a href="#hero" class="footer__back-top" aria-label="Back to top">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── Preloader ── */
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('preloader').classList.add('done'), 800);
+    });
+
+    /* ── Cursor glow (pointer devices only) ── */
+    const glow = document.getElementById('cursorGlow');
+    if (window.matchMedia('(pointer: fine)').matches) {
+      let gx = 0, gy = 0, cx = 0, cy = 0;
+      document.addEventListener('mousemove', e => { gx = e.clientX; gy = e.clientY; });
+      (function animateGlow() {
+        cx += (gx - cx) * .12;
+        cy += (gy - cy) * .12;
+        glow.style.left = cx + 'px';
+        glow.style.top = cy + 'px';
+        requestAnimationFrame(animateGlow);
+      })();
+    } else {
+      glow.style.display = 'none';
+    }
+
+    /* ── Scroll-aware nav ── */
+    const nav = document.getElementById('nav');
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 60);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    /* ── Hamburger ── */
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    /* ── Intersection Observer reveals ── */
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    /* ── Counter animation ── */
+    const counters = document.querySelectorAll('[data-count]');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = +el.dataset.count;
+          const duration = 1800;
+          const start = performance.now();
+          const easeOut = t => 1 - Math.pow(1 - t, 3);
+          function tick(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            el.textContent = Math.round(easeOut(progress) * target) + '+';
+            if (progress < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => counterObserver.observe(c));
+
+    /* ── Contact form ── */
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <span>Message Sent!</span>`;
+      submitBtn.classList.add('sent');
+
+      setTimeout(() => {
+        submitBtn.classList.remove('sent');
+        submitBtn.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+          </svg>
+          <span>Send Message</span>`;
+        form.reset();
+      }, 3000);
+    });
+
+    /* ── Smooth scroll for all anchor links ── */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    /* ── Active nav link tracking ── */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav__links a');
+    const activeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.style.color = '';
+            if (link.getAttribute('href') === '#' + entry.target.id) {
+              link.style.color = '#d4af37';
+            }
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(s => activeObserver.observe(s));
+  </script>
+</body>
+</html>
