@@ -1,17 +1,44 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YCFYEST3SH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-YCFYEST3SH");
+    </script>
+
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <meta
       name="description"
-      content="FlyFilm Productions creates cinematic brand films, commercials, and social content with fast turnaround and direct communication."
+      content="FlyFilm Productions builds fast, cinematic campaigns with instant contact access and an interactive live portfolio."
     />
-    <title>FlyFilm Productions | Fast, Cinematic Storytelling</title>
+    <title>flyfilm.gr // Live Portfolio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Teko:wght@300;500;600&display=swap"
+    />
     <link rel="preload" href="./styles.css" as="style" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <div id="preloader" aria-hidden="true">
+      <div class="loader-content">
+        <div class="fly-logo">FLY FILM</div>
+        <div class="loader-bar-track">
+          <div class="loader-bar-fill"></div>
+        </div>
+      </div>
+    </div>
+
     <a class="skip-link" href="#main-content">Skip to content</a>
 
     <header class="site-header" id="top">
@@ -33,6 +60,7 @@
 
         <nav class="site-nav" id="site-nav" data-site-nav>
           <a href="#work">Work</a>
+          <a href="#live-portfolio">Live Portfolio</a>
           <a href="#services">Services</a>
           <a href="#process">Process</a>
           <a href="#contact">Contact</a>
@@ -47,8 +75,7 @@
           <div class="hero-copy reveal">
             <p class="eyebrow">Film production that moves fast</p>
             <h1>
-              Cinematic video production built for brands that need results
-              now.
+              Cinematic video production built for brands that need results now.
             </h1>
             <p>
               We produce commercials, social videos, and branded stories with a
@@ -56,7 +83,7 @@
             </p>
             <div class="hero-actions">
               <a class="btn" href="#contact">Book a Creative Call</a>
-              <a class="btn btn-ghost" href="#work">Watch Selected Work</a>
+              <a class="btn btn-ghost" href="#live-portfolio">Launch Live Portfolio</a>
             </div>
             <ul class="quick-stats" aria-label="Company highlights">
               <li><strong>120+</strong><span>Projects delivered</span></li>
@@ -117,6 +144,177 @@
                 Modular shoots generating 40+ short-form assets in one week.
               </p>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="live-portfolio">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow">Interactive experience</p>
+            <h2>Live portfolio command center</h2>
+          </div>
+
+          <div class="cinematic-shell reveal" data-cinematic-shell>
+            <div id="lightbox">
+              <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close lightbox">
+                &times;
+              </button>
+              <img id="lightbox-img" src="" alt="Enlarged project still" />
+            </div>
+
+            <div class="lang-toggle-container" id="langToggle">
+              <button class="lang-pill active" id="pill-en" data-lang="en" type="button">EN</button>
+              <button class="lang-pill" id="pill-el" data-lang="el" type="button">EL</button>
+            </div>
+
+            <div class="atmosphere-layer">
+              <video id="atmosphereVideo" autoplay loop muted playsinline></video>
+            </div>
+
+            <div class="world-container">
+              <div class="menu-layer">
+                <div class="snap-container" id="menuScroller">
+                  <button
+                    class="cinematic-slide"
+                    type="button"
+                    data-cinematic-slide
+                    data-type="mtb"
+                    data-title-en="Mountain Bike"
+                    data-desc-en="High altitude trails. FPV speed tracking."
+                    data-title-el="ΟΡΕΙΝΗ ΠΟΔΗΛΑΣΙΑ"
+                    data-desc-el="ΚΑΤΑΒΑΣΕΙΣ ΥΨΗΛΗΣ ΤΑΧΥΤΗΤΑΣ. ΚΙΝΗΜΑΤΟΓΡΑΦΗΣΗ FPV."
+                  >
+                    <div class="content-row">
+                      <div class="text-group">
+                        <span class="index-num">/// 01</span>
+                        <h2 data-lang-key="menu_mtb">Mountain Bike</h2>
+                      </div>
+                    </div>
+                  </button>
+
+                  <button
+                    class="cinematic-slide"
+                    type="button"
+                    data-cinematic-slide
+                    data-type="mx"
+                    data-title-en="Moto Cross"
+                    data-desc-en="Dirt, mud, and airtime. Race chaos."
+                    data-title-el="MOTOCROSS"
+                    data-desc-el="ΧΩΜΑ ΚΑΙ ΑΛΜΑΤΑ. Η ΕΝΤΑΣΗ ΤΟΥ ΑΓΩΝΑ ΑΠΟ ΨΗΛΑ."
+                  >
+                    <div class="content-row">
+                      <div class="text-group">
+                        <span class="index-num">/// 02</span>
+                        <h2 data-lang-key="menu_mx">Moto Cross</h2>
+                      </div>
+                    </div>
+                  </button>
+
+                  <button
+                    class="cinematic-slide"
+                    type="button"
+                    data-cinematic-slide
+                    data-type="concerts"
+                    data-title-en="Live Concerts"
+                    data-desc-en="Stadium energy from the sky."
+                    data-title-el="ΣΥΝΑΥΛΙΕΣ"
+                    data-desc-el="Η ΕΝΕΡΓΕΙΑ ΤΟΥ ΣΤΑΔΙΟΥ ΚΑΙ ΤΟΥ ΚΟΙΝΟΥ."
+                  >
+                    <div class="content-row">
+                      <div class="text-group">
+                        <span class="index-num">/// 03</span>
+                        <h2 data-lang-key="menu_concerts">Live Concerts</h2>
+                      </div>
+                    </div>
+                  </button>
+
+                  <button
+                    class="cinematic-slide"
+                    type="button"
+                    data-cinematic-slide
+                    data-type="docu"
+                    data-title-en="Documentaries"
+                    data-desc-en="Cinematic narrative shots."
+                    data-title-el="ΝΤΟΚΙΜΑΝΤΕΡ"
+                    data-desc-el="ΚΙΝΗΜΑΤΟΓΡΑΦΙΚΗ ΑΦΗΓΗΣΗ ΚΑΙ ΤΟΠΙΑ."
+                  >
+                    <div class="content-row">
+                      <div class="text-group">
+                        <span class="index-num">/// 04</span>
+                        <h2 data-lang-key="menu_docu">Documentaries</h2>
+                      </div>
+                    </div>
+                  </button>
+
+                  <button
+                    class="cinematic-slide"
+                    type="button"
+                    data-cinematic-slide
+                    data-type="misc"
+                    data-title-en="Uncategorised"
+                    data-desc-en="Experimental VFX and raw clips."
+                    data-title-el="ΔΙΑΦΟΡΑ PROJECTS"
+                    data-desc-el="ΠΕΙΡΑΜΑΤΙΚΑ VFX ΚΑΙ ΑΚΑΤΕΡΓΑΣΤΑ ΠΛΑΝΑ."
+                  >
+                    <div class="content-row">
+                      <div class="text-group">
+                        <span class="index-num">/// 05</span>
+                        <h2 data-lang-key="menu_misc">Uncategorised</h2>
+                      </div>
+                    </div>
+                  </button>
+
+                  <button
+                    class="cinematic-slide"
+                    type="button"
+                    data-cinematic-slide
+                    data-type="contact"
+                    data-title-en="Contact Me"
+                    data-desc-en="Get in touch via our secure comms."
+                    data-title-el="ΕΠΙΚΟΙΝΩΝΙΑ"
+                    data-desc-el="Επικοινωνήστε μαζί μου μέσω της φόρμας."
+                  >
+                    <div class="content-row">
+                      <div class="text-group">
+                        <span class="index-num">/// 06</span>
+                        <h2 data-lang-key="menu_contact">Contact Me</h2>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              <div class="project-layer">
+                <button class="back-btn" id="closeBtn" data-lang-key="btn_back" type="button">
+                  &larr; BACK
+                </button>
+
+                <div class="proj-video-container" id="videoContainer"></div>
+
+                <div class="proj-details">
+                  <div class="show-if-project">
+                    <span class="index-num" data-lang-key="label_selected">/// SELECTED</span>
+                    <h2 class="proj-title" id="projTitle">TITLE</h2>
+                    <p class="proj-desc" id="projDesc">Description</p>
+                    <div class="matrix-grid" id="matrixGrid"></div>
+                  </div>
+
+                  <div class="show-if-contact">
+                    <h2 class="proj-form-title" data-lang-key="form_title">START MISSION</h2>
+                    <form id="integrated-form" class="automation-form">
+                      <label data-lang-key="form_name" for="integrated-name">Name</label>
+                      <input id="integrated-name" type="text" name="name" required />
+                      <label data-lang-key="form_email" for="integrated-email">Email</label>
+                      <input id="integrated-email" type="email" name="email" required />
+                      <label data-lang-key="form_msg" for="integrated-message">Message</label>
+                      <textarea id="integrated-message" name="message" rows="4"></textarea>
+                      <button type="submit" data-lang-key="form_submit">INITIATE LAUNCH</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -189,7 +387,7 @@
         <div class="container contact-shell reveal">
           <div>
             <p class="eyebrow">Contact</p>
-            <h2>Let’s make your next film unforgettable.</h2>
+            <h2>Let&rsquo;s make your next film unforgettable.</h2>
             <p>
               Tell us what you need, and we will respond with a clear action
               plan.
@@ -230,9 +428,7 @@
 
     <div class="quick-contact" aria-label="Quick contact links">
       <a href="tel:+15551234567" aria-label="Call now">Call</a>
-      <a href="mailto:hello@flyfilmproductions.com" aria-label="Email us"
-        >Email</a
-      >
+      <a href="mailto:hello@flyfilmproductions.com" aria-label="Email us">Email</a>
     </div>
 
     <script src="./script.js" defer></script>
