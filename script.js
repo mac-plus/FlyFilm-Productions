@@ -1,8 +1,9 @@
 const menuToggle = document.querySelector("[data-menu-toggle]");
 const siteNav = document.querySelector("[data-site-nav]");
 const yearNode = document.querySelector("[data-year]");
-const form = document.querySelector("[data-contact-form]");
-const formNote = document.querySelector("[data-form-note]");
+const contactForm = document.querySelector("[data-contact-form]");
+const contactFormNote = document.querySelector("[data-form-note]");
+const portfolioModule = document.querySelector("[data-portfolio-module]");
 
 if (yearNode) {
   yearNode.textContent = String(new Date().getFullYear());
@@ -31,7 +32,6 @@ if ("IntersectionObserver" in window) {
         if (!entry.isIntersecting) {
           return;
         }
-
         entry.target.classList.add("is-visible");
         obs.unobserve(entry.target);
       });
@@ -44,56 +44,43 @@ if ("IntersectionObserver" in window) {
   revealNodes.forEach((node) => node.classList.add("is-visible"));
 }
 
-if (form && formNote) {
-  form.addEventListener("submit", (event) => {
+const openMailto = ({ subject, body, noteNode, noteText }) => {
+  if (noteNode && noteText) {
+    noteNode.textContent = noteText;
+  }
+  window.location.href = `mailto:hello@flyfilmproductions.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+};
+
+if (contactForm && contactFormNote) {
+  contactForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const formData = new FormData(form);
-    const name = String(formData.get("name") || "").trim();
-    const email = String(formData.get("email") || "").trim();
-    const project = String(formData.get("project") || "").trim();
+    const data = new FormData(contactForm);
+    const name = String(data.get("name") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const project = String(data.get("project") || "").trim();
 
-    const subject = encodeURIComponent(`New project inquiry from ${name}`);
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\n\nProject goal:\n${project}`
-    );
-    const mailtoUrl = `mailto:hello@flyfilmproductions.com?subject=${subject}&body=${body}`;
-
-    formNote.textContent = "Opening your email app to send the inquiry.";
-    window.location.href = mailtoUrl;
+    openMailto({
+      subject: `New project inquiry from ${name}`,
+      body: `Name: ${name}\nEmail: ${email}\n\nProject goal:\n${project}`,
+      noteNode: contactFormNote,
+      noteText: "Opening your email app to send the inquiry.",
+    });
   });
 }
 
-const cinematicShell = document.querySelector("[data-cinematic-shell]");
+if (portfolioModule) {
+  const languageToggle = document.getElementById("langToggle");
+  const atmosphereVideo = document.getElementById("atmosphereVideo");
+  const galleryGrid = document.getElementById("galleryGrid");
+  const portfolioTitle = document.getElementById("portfolioTitle");
+  const portfolioDesc = document.getElementById("portfolioDesc");
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImage = document.getElementById("lightboxImage");
+  const lightboxClose = document.getElementById("lightboxClose");
+  const watchReel = document.getElementById("watchReel");
 
-if (cinematicShell) {
-  const YT_ID = "dF1I2Eo54iE";
-  const mediaAssets = {
-    mtb: {
-      bg: "https://assets.mixkit.co/videos/preview/mixkit-cyclist-riding-a-mountain-bike-downhill-4396-large.mp4",
-      matrix: "mtb",
-    },
-    mx: {
-      bg: "https://assets.mixkit.co/videos/preview/mixkit-motocross-racer-jumping-4524-large.mp4",
-      matrix: "mx",
-    },
-    concerts: {
-      bg: "https://assets.mixkit.co/videos/preview/mixkit-crowd-cheering-at-a-concert-4519-large.mp4",
-      matrix: "concert",
-    },
-    docu: {
-      bg: "https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-river-in-the-forest-4247-large.mp4",
-      matrix: "nature",
-    },
-    misc: {
-      bg: "https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-11-large.mp4",
-      matrix: "city",
-    },
-    contact: {
-      bg: "https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-1610-large.mp4",
-      matrix: "",
-    },
-  };
+  const portfolioItems = Array.from(portfolioModule.querySelectorAll(".portfolio-item"));
 
   const translations = {
     en: {
@@ -103,16 +90,8 @@ if (cinematicShell) {
       menu_docu: "Documentaries",
       menu_misc: "Uncategorised",
       menu_contact: "Contact Me",
-      panel_title: "Selected",
-      panel_contact: "Start Mission",
-      panel_contact_copy: "Fastest way to reach us for availability and rates.",
-      btn_back: "Back",
-      form_name: "Name",
-      form_email: "Email",
-      form_msg: "Message",
-      form_submit: "Send Inquiry",
-      form_sent: "Transmission sent",
-      form_note: "Opening your email app...",
+      label_selected: "/// SELECTED",
+      cta_contact: "Start Project",
     },
     el: {
       menu_mtb: "ΟΡΕΙΝΗ ΠΟΔΗΛΑΣΙΑ",
@@ -121,35 +100,61 @@ if (cinematicShell) {
       menu_docu: "ΝΤΟΚΙΜΑΝΤΕΡ",
       menu_misc: "ΔΙΑΦΟΡΑ PROJECTS",
       menu_contact: "ΕΠΙΚΟΙΝΩΝΙΑ",
-      panel_title: "Επιλογή",
-      panel_contact: "Εναρξη",
-      panel_contact_copy: "Ο πιο γρήγορος τρόπος επικοινωνίας για διαθεσιμότητα και κόστος.",
-      btn_back: "Πίσω",
-      form_name: "Ονομα",
-      form_email: "Email",
-      form_msg: "Μήνυμα",
-      form_submit: "Αποστολή",
-      form_sent: "Το μήνυμα στάλθηκε",
-      form_note: "Ανοίγει η εφαρμογή email...",
+      label_selected: "/// ΕΠΙΛΟΓΗ",
+      cta_contact: "ΕΝΑΡΞΗ PROJECT",
     },
   };
 
-  const slides = Array.from(cinematicShell.querySelectorAll("[data-cinematic-slide]"));
-  const atmosphereVideo = document.getElementById("atmosphereVideo");
-  const player = document.querySelector("[data-player]");
-  const panelTitle = document.querySelector("[data-panel-title]");
-  const panelName = document.querySelector("[data-panel-name]");
-  const panelDescription = document.querySelector("[data-panel-description]");
-  const closePanel = document.querySelector("[data-close-panel]");
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImage = document.getElementById("lightbox-img");
-  const lightboxClose = document.getElementById("lightboxClose");
-  const gallery = document.querySelector("[data-gallery]");
-  const languageToggle = document.getElementById("langToggle");
-  const cinematicForm = document.querySelector("[data-cinematic-form]");
-  const cinematicFormNote = document.querySelector("[data-cinematic-form-note]");
+  const mediaAssets = {
+    mtb: {
+      bg: "https://assets.mixkit.co/videos/preview/mixkit-cyclist-riding-a-mountain-bike-downhill-4396-large.mp4",
+      seed: "mtb",
+    },
+    mx: {
+      bg: "https://assets.mixkit.co/videos/preview/mixkit-motocross-racer-jumping-4524-large.mp4",
+      seed: "mx",
+    },
+    concerts: {
+      bg: "https://assets.mixkit.co/videos/preview/mixkit-crowd-cheering-at-a-concert-4519-large.mp4",
+      seed: "concert",
+    },
+    docu: {
+      bg: "https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-river-in-the-forest-4247-large.mp4",
+      seed: "nature",
+    },
+    misc: {
+      bg: "https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-11-large.mp4",
+      seed: "city",
+    },
+    contact: {
+      bg: "https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-1610-large.mp4",
+      seed: "contact",
+    },
+  };
 
-  let currentLang = "en";
+  let currentLanguage = "en";
+
+  const applyLanguage = (lang) => {
+    currentLanguage = lang;
+
+    portfolioModule.querySelectorAll("[data-i18n]").forEach((node) => {
+      const key = node.getAttribute("data-i18n");
+      if (!key || !translations[lang][key]) {
+        return;
+      }
+      node.textContent = translations[lang][key];
+    });
+
+    languageToggle?.querySelectorAll(".lang-pill").forEach((pill) => {
+      const isActive = pill.dataset.lang === lang;
+      pill.classList.toggle("is-active", isActive);
+    });
+
+    const activeItem = portfolioModule.querySelector(".portfolio-item.is-active");
+    if (activeItem) {
+      updatePreview(activeItem);
+    }
+  };
 
   const setAtmosphere = (type) => {
     if (!atmosphereVideo || !mediaAssets[type]) {
@@ -161,208 +166,121 @@ if (cinematicShell) {
       return;
     }
 
-    atmosphereVideo.style.opacity = "0";
+    atmosphereVideo.style.opacity = "0.35";
     window.setTimeout(() => {
       atmosphereVideo.src = nextSource;
       atmosphereVideo.play().catch(() => {});
       atmosphereVideo.style.opacity = "1";
-    }, 200);
-  };
-
-  const setActiveSlide = (slide, updateBackground = true) => {
-    if (!slide) {
-      return;
-    }
-
-    slides.forEach((item) => item.classList.remove("is-active"));
-    slide.classList.add("is-active");
-
-    if (updateBackground) {
-      setAtmosphere(slide.dataset.type || "mtb");
-    }
+    }, 120);
   };
 
   const openLightbox = (src) => {
     if (!lightbox || !lightboxImage) {
       return;
     }
-
     lightboxImage.src = src;
     lightbox.classList.add("active");
+    lightbox.setAttribute("aria-hidden", "false");
   };
 
   const renderGallery = (type) => {
-    if (!gallery) {
+    if (!galleryGrid) {
       return;
     }
 
-    gallery.innerHTML = "";
-    const seed = mediaAssets[type]?.matrix || "city";
+    galleryGrid.innerHTML = "";
+    const seed = mediaAssets[type]?.seed || "city";
     for (let index = 0; index < 4; index += 1) {
-      const thumb = document.createElement("button");
-      thumb.className = "gallery-item";
-      thumb.type = "button";
-      thumb.innerHTML = `<img src="https://picsum.photos/seed/${seed}${index}/640/360" alt="Project still ${index + 1}" loading="lazy" />`;
-      thumb.addEventListener("click", () => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "gallery-item";
+      button.innerHTML = `<img src="https://picsum.photos/seed/${seed}${index}/640/360" alt="Portfolio still ${index + 1}" loading="lazy" />`;
+      button.addEventListener("click", () => {
         openLightbox(`https://picsum.photos/seed/${seed}${index}/1600/900`);
       });
-      gallery.appendChild(thumb);
+      galleryGrid.appendChild(button);
     }
   };
 
-  const renderProjectPanel = (slide) => {
-    if (!slide || !panelName || !panelDescription || !player) {
-      return;
-    }
+  const updatePreview = (item) => {
+    const type = item.dataset.type || "mtb";
+    const title = item.getAttribute(`data-title-${currentLanguage}`) || "";
+    const description = item.getAttribute(`data-desc-${currentLanguage}`) || "";
 
-    const type = slide.dataset.type || "mtb";
-    const title = slide.getAttribute(`data-title-${currentLang}`) || "";
-    const description = slide.getAttribute(`data-desc-${currentLang}`) || "";
-
-    panelName.textContent = title;
-    panelDescription.textContent = description;
-    setActiveSlide(slide);
-
-    if (type === "contact") {
-      cinematicShell.classList.add("is-contact");
-      player.innerHTML = "";
-      if (panelTitle) {
-        panelTitle.textContent = translations[currentLang].panel_contact;
-      }
-      return;
-    }
-
-    cinematicShell.classList.remove("is-contact");
-    if (panelTitle) {
-      panelTitle.textContent = translations[currentLang].panel_title;
-    }
-    renderGallery(type);
-
-    player.innerHTML = `<iframe src="https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&controls=1&loop=1&playlist=${YT_ID}&playsinline=1" title="Showreel video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
-  };
-
-  const openPanel = (slide) => {
-    renderProjectPanel(slide);
-    cinematicShell.classList.add("is-panel-open");
-  };
-
-  const closePanelView = () => {
-    cinematicShell.classList.remove("is-panel-open");
-    window.setTimeout(() => {
-      if (player) {
-        player.innerHTML = "";
-      }
-    }, 300);
-  };
-
-  const applyLanguage = (language) => {
-    const dictionary = translations[language];
-    if (!dictionary) {
-      return;
-    }
-
-    currentLang = language;
-    document.body.classList.toggle("lang-el", language === "el");
-
-    const enPill = document.getElementById("pill-en");
-    const elPill = document.getElementById("pill-el");
-    enPill?.classList.toggle("active", language === "en");
-    elPill?.classList.toggle("active", language === "el");
-
-    cinematicShell.querySelectorAll("[data-lang-key]").forEach((node) => {
-      const key = node.getAttribute("data-lang-key");
-      if (key && dictionary[key]) {
-        node.textContent = dictionary[key];
-      }
+    portfolioItems.forEach((node) => {
+      const isActive = node === item;
+      node.classList.toggle("is-active", isActive);
+      node.setAttribute("aria-selected", String(isActive));
     });
 
-    if (cinematicFormNote) {
-      cinematicFormNote.textContent = "";
+    if (portfolioTitle) {
+      portfolioTitle.textContent = title;
+    }
+    if (portfolioDesc) {
+      portfolioDesc.textContent = description;
     }
 
-    const active = cinematicShell.querySelector(".cinematic-slide.is-active");
-    if (active) {
-      renderProjectPanel(active);
+    if (watchReel) {
+      if (type === "contact") {
+        watchReel.href = "#contact";
+        watchReel.textContent = currentLanguage === "el" ? "Επικοινωνία" : "Contact";
+      } else {
+        watchReel.href = "https://www.youtube.com/watch?v=dF1I2Eo54iE";
+        watchReel.textContent = currentLanguage === "el" ? "Δες Reel" : "Watch Reel";
+      }
     }
+
+    setAtmosphere(type);
+    renderGallery(type);
   };
 
-  slides.forEach((slide) => {
-    slide.addEventListener("mouseenter", () => setActiveSlide(slide));
-    slide.addEventListener("focus", () => setActiveSlide(slide));
-    slide.addEventListener("click", () => openPanel(slide));
+  portfolioItems.forEach((item) => {
+    item.addEventListener("click", () => updatePreview(item));
+    item.addEventListener("mouseenter", () => setAtmosphere(item.dataset.type || "mtb"));
+    item.addEventListener("focus", () => setAtmosphere(item.dataset.type || "mtb"));
   });
 
-  if (closePanel) {
-    closePanel.addEventListener("click", closePanelView);
-  }
-
-  if (languageToggle) {
-    languageToggle.addEventListener("click", (event) => {
-      const target = event.target;
-      if (!(target instanceof HTMLElement) || !target.classList.contains("lang-pill")) {
-        return;
-      }
-
-      const lang = target.dataset.lang === "el" ? "el" : "en";
-      applyLanguage(lang);
-    });
-  }
-
-  if (lightbox && lightboxClose) {
-    lightboxClose.addEventListener("click", () => lightbox.classList.remove("active"));
-    lightbox.addEventListener("click", (event) => {
-      if (event.target === lightbox) {
-        lightbox.classList.remove("active");
-      }
-    });
-  }
-
-  if (cinematicForm && cinematicFormNote) {
-    cinematicForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const data = new FormData(cinematicForm);
-      const name = String(data.get("name") || "").trim();
-      const email = String(data.get("email") || "").trim();
-      const message = String(data.get("message") || "").trim();
-
-      const subject = encodeURIComponent(`Live portfolio inquiry from ${name}`);
-      const body = encodeURIComponent(
-        `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-      );
-      const mailtoUrl = `mailto:hello@flyfilmproductions.com?subject=${subject}&body=${body}`;
-
-      cinematicFormNote.textContent = translations[currentLang].form_note;
-      window.location.href = mailtoUrl;
-    });
-  }
-
-  const revealSlides = () => {
-    slides.forEach((slide, index) => {
-      window.setTimeout(() => {
-        slide.classList.add("is-shown");
-      }, 180 + index * 65);
-    });
-  };
-
-  const initCinematicModule = () => {
-    if (slides[0]) {
-      setActiveSlide(slides[0], false);
-      setAtmosphere(slides[0].dataset.type || "mtb");
+  languageToggle?.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement) || !target.classList.contains("lang-pill")) {
+      return;
     }
+    const lang = target.dataset.lang === "el" ? "el" : "en";
+    applyLanguage(lang);
+  });
 
-    applyLanguage("en");
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const preloaderDelay = reducedMotion ? 0 : 1300;
-    window.setTimeout(() => {
-      document.body.classList.add("loaded");
-      revealSlides();
-    }, preloaderDelay);
-  };
+  lightboxClose?.addEventListener("click", () => {
+    lightbox?.classList.remove("active");
+    lightbox?.setAttribute("aria-hidden", "true");
+  });
 
-  if (document.readyState === "complete") {
-    initCinematicModule();
-  } else {
-    window.addEventListener("load", initCinematicModule, { once: true });
+  lightbox?.addEventListener("click", (event) => {
+    if (event.target === lightbox) {
+      lightbox.classList.remove("active");
+      lightbox.setAttribute("aria-hidden", "true");
+    }
+  });
+
+  const defaultItem = portfolioItems[0];
+  if (defaultItem) {
+    updatePreview(defaultItem);
   }
+  applyLanguage("en");
+}
+
+const loadPreloader = () => {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reducedMotion) {
+    document.body.classList.add("loaded");
+    return;
+  }
+  window.setTimeout(() => {
+    document.body.classList.add("loaded");
+  }, 1400);
+};
+
+if (document.readyState === "complete") {
+  loadPreloader();
+} else {
+  window.addEventListener("load", loadPreloader, { once: true });
 }
