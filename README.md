@@ -9,9 +9,9 @@ Fast, responsive, single-page website for a film production company.
 - High-visibility contact entry points (hero, sticky quick links, form)
 - Accessibility basics: skip link, semantic sections, labels, focusable controls
 - Progressive enhancement for reveal animations
-- Cinematic preloader and interactive live portfolio module
+- Focused cinematic portfolio module (without overwhelming the core UX)
 - Bilingual portfolio controls (EN/EL) with localized project labels
-- Dynamic background atmosphere video and project media lightbox
+- Preview panel with quick category switching and gallery lightbox
 
 ## Local preview
 
