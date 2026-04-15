@@ -1,24 +1,24 @@
-# FlyFilm Productions Website
+# flyfilm.gr Live Portfolio
 
-Fast, responsive, single-page website for a film production company.
+Improved version of the original uploaded cinematic portfolio experience.
 
 ## Highlights
 
-- Mobile-first, fluid layout
-- Lightweight vanilla HTML/CSS/JS (no framework overhead)
-- High-visibility contact entry points (hero, sticky quick links, form)
-- Accessibility basics: skip link, semantic sections, labels, focusable controls
-- Progressive enhancement for reveal animations
-- Focused cinematic portfolio module (without overwhelming the core UX)
-- Bilingual portfolio controls (EN/EL) with localized project labels
-- Preview panel with quick category switching and gallery lightbox
+- Full-screen cinematic interface (menu layer + project layer)
+- Preloader intro with animated logo and loading bar
+- Bilingual interface toggle (EN / EL)
+- Category-based atmosphere video switching
+- Embedded showreel player for project categories
+- Image matrix with expandable lightbox
+- Contact mission form with fast mailto handoff
+- Keyboard improvements (`Escape` closes overlays, focusable controls)
 
 ## Local preview
 
-Open `index.html` directly in your browser, or run a static server:
+Run a static server from this directory:
 
 ```bash
-python -m http.server 8080
+python3 -m http.server 8080
 ```
 
-Then visit `http://localhost:8080`.
+Then open `http://localhost:8080`.
